@@ -1,13 +1,27 @@
 import { resolve } from 'path'
-import { defineConfig, externalizeDepsPlugin, bytecodePlugin } from 'electron-vite'
+import { defineConfig, externalizeDepsPlugin } from 'electron-vite'
 import vue from '@vitejs/plugin-vue'
 
 export default defineConfig({
   main: {
-    plugins: [externalizeDepsPlugin(), bytecodePlugin()]
+    plugins: [externalizeDepsPlugin()],
+    build: {
+      rollupOptions: {
+        output: {
+          format: 'es'
+        }
+      }
+    }
   },
   preload: {
-    plugins: [externalizeDepsPlugin(), bytecodePlugin()]
+    plugins: [externalizeDepsPlugin()],
+    build: {
+      rollupOptions: {
+        output: {
+          format: 'es'
+        }
+      }
+    }
   },
   renderer: {
     resolve: {
@@ -15,6 +29,16 @@ export default defineConfig({
         '@renderer': resolve('src/renderer/src')
       }
     },
-    plugins: [vue()]
+    plugins: [vue()],
+    define: {
+      __INTLIFY_JIT_COMPILATION__: true
+    },
+    build: {
+      rollupOptions: {
+        output: {
+          format: 'es'
+        }
+      }
+    }
   }
 })

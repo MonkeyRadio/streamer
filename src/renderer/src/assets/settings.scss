@@ -1,0 +1,5 @@
+@import 'fonts';
+
+@use 'vuetify/settings' with (
+  $body-font-family: $family
+);
